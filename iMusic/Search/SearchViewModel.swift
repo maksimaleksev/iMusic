@@ -11,6 +11,11 @@ import RxCocoa
 
 class SearchViewModel {
     
+    enum Mode {
+        case displaydata
+        case loading
+    }
+    
     class CellViewModel {
         var iconUrlString: String?
         var trackName: String
@@ -33,6 +38,7 @@ class SearchViewModel {
     let searchNetworkSevice = ItunesSearchNetworkService()
     let searchText: BehaviorRelay<String> = BehaviorRelay(value: "")
     let cells: BehaviorRelay<[CellViewModel]> = BehaviorRelay(value: [])
+    let mode: BehaviorRelay<Mode> = BehaviorRelay(value: .displaydata)
     
     //MARK: - Initializer
     init() {
@@ -51,9 +57,12 @@ class SearchViewModel {
                 
                 guard let resource = resourceBuilder.buildResource() else { return }
                 
+                self.mode.accept(.loading)
+                
                 self.searchNetworkSevice.loadSearchRequest(resource:resource)
                     .compactMap { searchResponse  in
                         
+                        self.mode.accept(.displaydata)
                         return searchResponse?.results.map {[weak self] in (self?.getCell(from: $0))! }
                     }
                     .compactMap{ $0 }

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1F1BAFEB34D6E662F01A598F /* Pods_iMusic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06A5ECE12125437EEE12FDA6 /* Pods_iMusic.framework */; };
+		7B08B255258A6F2200DA466F /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B08B254258A6F2200DA466F /* UIView+Extensions.swift */; };
 		7B5F45F52589388200362CF5 /* FooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5F45F42589388200362CF5 /* FooterView.swift */; };
 		7B5F45FA258942A100362CF5 /* TrackDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5F45F9258942A100362CF5 /* TrackDetailView.swift */; };
 		7B5F45FD258942DA00362CF5 /* TrackDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B5F45FC258942DA00362CF5 /* TrackDetailView.xib */; };
@@ -36,6 +37,7 @@
 /* Begin PBXFileReference section */
 		06A5ECE12125437EEE12FDA6 /* Pods_iMusic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iMusic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		44DAEBB486A74C73EBAAD693 /* Pods-iMusic.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iMusic.debug.xcconfig"; path = "Target Support Files/Pods-iMusic/Pods-iMusic.debug.xcconfig"; sourceTree = "<group>"; };
+		7B08B254258A6F2200DA466F /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		7B5F45F42589388200362CF5 /* FooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FooterView.swift; sourceTree = "<group>"; };
 		7B5F45F9258942A100362CF5 /* TrackDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackDetailView.swift; sourceTree = "<group>"; };
 		7B5F45FC258942DA00362CF5 /* TrackDetailView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TrackDetailView.xib; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 			children = (
 				7BDB43C7258644DD003F2291 /* UIViewController+Extension.swift */,
 				7BDB44002587DBAA003F2291 /* UIImageView+Extension.swift */,
+				7B08B254258A6F2200DA466F /* UIView+Extensions.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -335,6 +338,7 @@
 				7BDB43F625869BFB003F2291 /* ItunesResourceBuilder.swift in Sources */,
 				7BDB43C8258644DD003F2291 /* UIViewController+Extension.swift in Sources */,
 				7BDB43BC258643C8003F2291 /* LibraryViewController.swift in Sources */,
+				7B08B255258A6F2200DA466F /* UIView+Extensions.swift in Sources */,
 				7BDB43D725864A8F003F2291 /* SearchNetworkService.swift in Sources */,
 				7BDB43E72586549E003F2291 /* ItunesSearchResponse.swift in Sources */,
 				7BE4F204258554010007B4BA /* SceneDelegate.swift in Sources */,

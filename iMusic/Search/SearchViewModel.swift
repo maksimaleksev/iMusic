@@ -34,8 +34,8 @@ class SearchViewModel {
     
     //MARK: - Costants and vars
     
-    let disposeBag = DisposeBag()
-    let searchNetworkSevice = ItunesSearchNetworkService()
+    private let disposeBag = DisposeBag()
+    private let searchNetworkSevice = ItunesSearchNetworkService()
     let searchText: BehaviorRelay<String> = BehaviorRelay(value: "")
     let cells: BehaviorRelay<[CellViewModel]> = BehaviorRelay(value: [])
     let mode: BehaviorRelay<Mode> = BehaviorRelay(value: .displaydata)
@@ -60,10 +60,10 @@ class SearchViewModel {
                 self.mode.accept(.loading)
                 
                 self.searchNetworkSevice.loadSearchRequest(resource:resource)
-                    .compactMap { searchResponse  in
+                    .compactMap {[unowned self] searchResponse  in
                         
                         self.mode.accept(.displaydata)
-                        return searchResponse?.results.map {[weak self] in (self?.getCell(from: $0))! }
+                        return searchResponse?.results.map {[unowned self] in self.getCell(from: $0) }
                     }
                     .compactMap{ $0 }
                     .bind(to: self.cells)

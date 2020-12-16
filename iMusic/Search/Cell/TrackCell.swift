@@ -11,7 +11,7 @@ class TrackCell: UITableViewCell {
     
     static let reuseId = String(describing: TrackCell.self)
     
-    var cellViewModel: SearchViewModel.CellViewModel?
+    private var cellViewModel: SearchViewModel.CellViewModel?
     
     //MARK: - IBOutlets
     

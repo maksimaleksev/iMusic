@@ -79,9 +79,16 @@ class SearchViewController: UIViewController {
     }
     
     private func cellSelectedSetup() {
-        tableView.rx.itemSelected.subscribe(onNext: {[weak self] indexPath in
-            let cellViewModel = self?.viewModel.cells.value[indexPath.row]
-            print(cellViewModel?.trackName ?? "")
+        tableView.rx.itemSelected.subscribe(onNext: {[unowned self] indexPath in
+            
+            let cellViewModel = self.viewModel.cells.value[indexPath.row]
+                
+            let window = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
+                   let trackDetailView: TrackDetailView = TrackDetailView.loadFromNib()
+                   trackDetailView.set(viewModel: cellViewModel)
+//                   trackDetailView.delegate = self
+                   window?.addSubview(trackDetailView)
+
         }).disposed(by: disposeBag)
     }
     
@@ -93,7 +100,7 @@ extension SearchViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let label = UILabel()
-        label.text = "Please enter search term above..."
+        label.text = "Please enter search request above..."
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         

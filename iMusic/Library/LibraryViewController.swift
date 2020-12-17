@@ -15,5 +15,9 @@ class LibraryViewController: UIViewController {
         super.viewDidLoad()
         
     }
+    
+    deinit {
+        print("LibraryViewController deinit")
+    }
 
 }

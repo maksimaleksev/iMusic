@@ -36,6 +36,9 @@ class SearchViewController: UIViewController {
         cellSelectedSetup()
     }
     
+    deinit {
+        print("SearchViewController deinit")
+    }
     
     //MARK: - VC Methods
     
@@ -45,7 +48,7 @@ class SearchViewController: UIViewController {
         searchController.obscuresBackgroundDuringPresentation = false
         
         searchController.searchBar.rx.text
-            .throttle(.milliseconds(1500), scheduler: MainScheduler.instance)
+            .debounce(.milliseconds(1000), scheduler: MainScheduler.instance)
             .distinctUntilChanged()
             .compactMap { $0 }
             .filter{ $0 != "" }
@@ -79,16 +82,16 @@ class SearchViewController: UIViewController {
     }
     
     private func cellSelectedSetup() {
-        tableView.rx.itemSelected.subscribe(onNext: {[unowned self] indexPath in
+        tableView.rx.itemSelected.subscribe(onNext: {[weak self] indexPath in
             
-            let cellViewModel = self.viewModel.cells.value[indexPath.row]
-                
+            guard let cellViewModel = self?.viewModel.cells.value[indexPath.row] else { return }
+            
             let window = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
-                   let trackDetailView: TrackDetailView = TrackDetailView.loadFromNib()
-                   trackDetailView.set(viewModel: cellViewModel)
-//                   trackDetailView.delegate = self
-                   window?.addSubview(trackDetailView)
-
+            let trackDetailView: TrackDetailView = TrackDetailView.loadFromNib()
+            trackDetailView.set(viewModel: cellViewModel)
+            trackDetailView.trackMovingDelegate = self
+            window?.addSubview(trackDetailView)
+            
         }).disposed(by: disposeBag)
     }
     
@@ -110,4 +113,42 @@ extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return viewModel.cells.value.count > 0 ? 0 : 250
     }
+}
+
+//MARK: - Track
+
+extension SearchViewController: TrackMovingDelegate {
+    
+    func moveBackForPreviousTrack() -> SearchViewModel.CellViewModel? {
+        return getTrack(isForwardTrack: false)
+    }
+    
+    func moveForwardForNextTrack() -> SearchViewModel.CellViewModel? {
+        return getTrack(isForwardTrack: true)
+    }
+    
+    private func getTrack(isForwardTrack: Bool) -> SearchViewModel.CellViewModel? {
+        
+        guard let indexPath = tableView.indexPathForSelectedRow  else { return nil }
+        tableView.deselectRow(at: indexPath, animated: true)
+        var nextIndexPath: IndexPath!
+        
+        if isForwardTrack {
+            nextIndexPath = IndexPath(row: indexPath.row + 1, section: indexPath.section)
+            if nextIndexPath.row == viewModel.cells.value.count {
+                nextIndexPath.row = 0
+            }
+        } else {
+            nextIndexPath = IndexPath(row: indexPath.row - 1, section: 0)
+            if nextIndexPath.row == -1 {
+                nextIndexPath.row = viewModel.cells.value.count - 1
+            }
+        }
+        
+        tableView.selectRow(at: nextIndexPath, animated: true, scrollPosition: .none)
+        let cellViewModel = viewModel.cells.value[nextIndexPath.row]
+        return cellViewModel
+    }
+    
+    
 }

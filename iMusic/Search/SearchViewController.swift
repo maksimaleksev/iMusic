@@ -23,6 +23,8 @@ class SearchViewController: UIViewController {
     
     private let footerView = FooterView()
     
+    weak var mainTabBarDelegate: MainTabBarControllerDelegate?
+    
     //MARK: - IBOtlets
     @IBOutlet weak var tableView: UITableView!
     
@@ -40,7 +42,7 @@ class SearchViewController: UIViewController {
         print("SearchViewController deinit")
     }
     
-    //MARK: - VC Methods
+    //MARK: - Setup SearchBar
     
     private func setupSearchBar() {
         navigationItem.searchController = searchController
@@ -55,6 +57,8 @@ class SearchViewController: UIViewController {
             .bind(to: viewModel.searchText).disposed(by: disposeBag)
         
     }
+    
+    //MARK: - Setup Table View
     
     private func setupTableView() {
         let nib = UINib(nibName: TrackCell.reuseId, bundle: nil)
@@ -85,47 +89,12 @@ class SearchViewController: UIViewController {
         tableView.rx.itemSelected.subscribe(onNext: {[weak self] indexPath in
             
             guard let cellViewModel = self?.viewModel.cells.value[indexPath.row] else { return }
-            
-            let window = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
-            let trackDetailView: TrackDetailView = TrackDetailView.loadFromNib()
-            trackDetailView.set(viewModel: cellViewModel)
-            trackDetailView.trackMovingDelegate = self
-            window?.addSubview(trackDetailView)
+            self?.mainTabBarDelegate?.maximizeTrackDetailController(viewModel: cellViewModel)
             
         }).disposed(by: disposeBag)
     }
     
-}
-
-//MARK: - TableViewDelegate
-
-extension SearchViewController: UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let label = UILabel()
-        label.text = "Please enter search request above..."
-        label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
-        
-        return label
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return viewModel.cells.value.count > 0 ? 0 : 250
-    }
-}
-
-//MARK: - Track
-
-extension SearchViewController: TrackMovingDelegate {
-    
-    func moveBackForPreviousTrack() -> SearchViewModel.CellViewModel? {
-        return getTrack(isForwardTrack: false)
-    }
-    
-    func moveForwardForNextTrack() -> SearchViewModel.CellViewModel? {
-        return getTrack(isForwardTrack: true)
-    }
+   
     
     private func getTrack(isForwardTrack: Bool) -> SearchViewModel.CellViewModel? {
         
@@ -150,5 +119,37 @@ extension SearchViewController: TrackMovingDelegate {
         return cellViewModel
     }
     
+}
+
+
+
+//MARK: - TableViewDelegate
+
+extension SearchViewController: UITableViewDelegate {
     
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let label = UILabel()
+        label.text = "Please enter search request above..."
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        
+        return label
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return viewModel.cells.value.count > 0 ? 0 : 250
+    }
+}
+
+//MARK: - TrackMovingDelegate
+
+extension SearchViewController: TrackMovingDelegate {
+
+    func moveBackForPreviousTrack() -> SearchViewModel.CellViewModel? {
+        return getTrack(isForwardTrack: false)
+    }
+
+    func moveForwardForNextTrack() -> SearchViewModel.CellViewModel? {
+        return getTrack(isForwardTrack: true)
+    }
 }

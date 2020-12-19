@@ -58,6 +58,7 @@
                 <outlet property="artistNameLabel" destination="Jki-MT-BE6" id="SFY-aI-cGH"/>
                 <outlet property="collectionNameLabel" destination="nA4-T4-LYJ" id="WrG-Ku-aoH"/>
                 <outlet property="coverImagView" destination="H4t-02-eyI" id="7Cz-tS-jNN"/>
+                <outlet property="saveTrackButton" destination="bIu-Us-txM" id="2Kp-h2-wFJ"/>
                 <outlet property="trackNameLabel" destination="HHO-vP-y2y" id="Tz8-fr-xdr"/>
             </connections>
             <point key="canvasLocation" x="137.68115942028987" y="152.67857142857142"/>

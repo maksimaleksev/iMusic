@@ -26,7 +26,12 @@ class SearchViewController: UIViewController {
     weak var mainTabBarDelegate: MainTabBarControllerDelegate?
     
     //MARK: - IBOtlets
+    
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var trailingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var leadingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var topConstraint: NSLayoutConstraint!
     
     //MARK: - Lifecycle
     override func viewDidLoad() {
@@ -36,10 +41,6 @@ class SearchViewController: UIViewController {
         setupTableView()
         populateTableView()
         cellSelectedSetup()
-    }
-    
-    deinit {
-        print("SearchViewController deinit")
     }
     
     //MARK: - Setup SearchBar
@@ -64,7 +65,7 @@ class SearchViewController: UIViewController {
         let nib = UINib(nibName: TrackCell.reuseId, bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: TrackCell.reuseId)
         tableView.delegate = self
-        tableView.tableFooterView = footerView
+        tableView.tableFooterView = FooterView()
         viewModel.mode.asDriver().drive(onNext: {[weak self] mode in
             
             switch mode {
@@ -94,31 +95,14 @@ class SearchViewController: UIViewController {
         }).disposed(by: disposeBag)
     }
     
-   
-    
-    private func getTrack(isForwardTrack: Bool) -> SearchViewModel.CellViewModel? {
-        
-        guard let indexPath = tableView.indexPathForSelectedRow  else { return nil }
-        tableView.deselectRow(at: indexPath, animated: true)
-        var nextIndexPath: IndexPath!
-        
-        if isForwardTrack {
-            nextIndexPath = IndexPath(row: indexPath.row + 1, section: indexPath.section)
-            if nextIndexPath.row == viewModel.cells.value.count {
-                nextIndexPath.row = 0
-            }
-        } else {
-            nextIndexPath = IndexPath(row: indexPath.row - 1, section: 0)
-            if nextIndexPath.row == -1 {
-                nextIndexPath.row = viewModel.cells.value.count - 1
-            }
-        }
-        
-        tableView.selectRow(at: nextIndexPath, animated: true, scrollPosition: .none)
-        let cellViewModel = viewModel.cells.value[nextIndexPath.row]
-        return cellViewModel
+    func setupBottomConstraint(at constant: CGFloat) {
+        view.translatesAutoresizingMaskIntoConstraints = false
+        bottomConstraint.constant = constant
+        topConstraint.constant = 0
+        leadingConstraint.constant = 0
+        trailingConstraint.constant = 0
+        [bottomConstraint, topConstraint, leadingConstraint, trailingConstraint].forEach { $0?.isActive = true }
     }
-    
 }
 
 
@@ -151,5 +135,28 @@ extension SearchViewController: TrackMovingDelegate {
 
     func moveForwardForNextTrack() -> SearchViewModel.CellViewModel? {
         return getTrack(isForwardTrack: true)
+    }
+    
+    private func getTrack(isForwardTrack: Bool) -> SearchViewModel.CellViewModel? {
+        
+        guard let indexPath = tableView.indexPathForSelectedRow  else { return nil }
+        tableView.deselectRow(at: indexPath, animated: true)
+        var nextIndexPath: IndexPath!
+        
+        if isForwardTrack {
+            nextIndexPath = IndexPath(row: indexPath.row + 1, section: indexPath.section)
+            if nextIndexPath.row == viewModel.cells.value.count {
+                nextIndexPath.row = 0
+            }
+        } else {
+            nextIndexPath = IndexPath(row: indexPath.row - 1, section: 0)
+            if nextIndexPath.row == -1 {
+                nextIndexPath.row = viewModel.cells.value.count - 1
+            }
+        }
+        
+        tableView.selectRow(at: nextIndexPath, animated: true, scrollPosition: .none)
+        let cellViewModel = viewModel.cells.value[nextIndexPath.row]
+        return cellViewModel
     }
 }

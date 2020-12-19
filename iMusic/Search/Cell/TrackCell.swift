@@ -19,6 +19,7 @@ class TrackCell: UITableViewCell {
     @IBOutlet weak var trackNameLabel: UILabel!
     @IBOutlet weak var artistNameLabel: UILabel!
     @IBOutlet weak var collectionNameLabel: UILabel!
+    @IBOutlet weak var saveTrackButton: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -33,10 +34,10 @@ class TrackCell: UITableViewCell {
     
     func set(viewModel: SearchViewModel.CellViewModel) {
         
-        //        let savedTracks = UserDefaults.standard.savedTracks()
-        //        let hasFavorite = savedTracks.firstIndex { $0.trackName == viewModel.trackName && $0.artistName == viewModel.artistName } != nil
-        //
-        //        saveTrackButton.isHidden = hasFavorite
+        let savedTracks = PersistantDataManager.shared.loadCells()
+        let hasFavorite = savedTracks.firstIndex { $0.trackName == viewModel.trackName && $0.artistName == viewModel.artistName } != nil
+        
+        saveTrackButton.isHidden = hasFavorite
         
         self.cellViewModel = viewModel
         self.trackNameLabel.text = viewModel.trackName
@@ -45,7 +46,11 @@ class TrackCell: UITableViewCell {
         self.coverImagView.webImage(viewModel.iconUrlString ?? "",
                                     placeHolder: #imageLiteral(resourceName: "albumImagePlaceHolder"))
     }
+    
     @IBAction func saveToStorageButtonTapped(_ sender: UIButton) {
+        guard let cellViewModel = cellViewModel else { return }
+        PersistantDataManager.shared.saveViewModel(cellViewModel)
+        saveTrackButton.isHidden = true
     }
     
 }

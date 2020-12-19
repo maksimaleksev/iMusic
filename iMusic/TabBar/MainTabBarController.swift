@@ -107,6 +107,7 @@ extension MainTabBarController: MainTabBarControllerDelegate {
         maximizedTopAnchorConstraint.isActive = false
         bottomAnchorConstraint.constant = view.frame.height
         minimizedTopAnchorConstraint.isActive = true
+//        searchVC.setupBottomConstraint(at: -64)
         
         UIView.animate(withDuration: 0.5,
                        delay: 0,

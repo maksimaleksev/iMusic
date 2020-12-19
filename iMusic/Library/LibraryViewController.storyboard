@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="4jy-BX-Hqe">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="4jy-BX-Hqe">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -16,16 +16,46 @@
                     <view key="view" contentMode="scaleToFill" id="Bet-RM-zNZ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0QY-st-OgK">
+                                <rect key="frame" x="8" y="52" width="398" height="40"/>
+                                <color key="backgroundColor" white="0.95421823510000003" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="wQn-EQ-IPn"/>
+                                </constraints>
+                                <color key="tintColor" red="0.92551249270000002" green="0.1882554293" blue="0.38820803170000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" image="play.fill" catalog="system"/>
+                            </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="84" estimatedRowHeight="84" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="732-d1-1LF">
+                                <rect key="frame" x="0.0" y="100" width="414" height="762"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="lBj-B6-cy1"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="732-d1-1LF" firstAttribute="top" secondItem="0QY-st-OgK" secondAttribute="bottom" constant="8" id="31i-92-rjs"/>
+                            <constraint firstItem="0QY-st-OgK" firstAttribute="leading" secondItem="lBj-B6-cy1" secondAttribute="leading" constant="8" id="7Ss-he-hLX"/>
+                            <constraint firstItem="732-d1-1LF" firstAttribute="leading" secondItem="lBj-B6-cy1" secondAttribute="leading" id="ERD-1i-E0e"/>
+                            <constraint firstItem="0QY-st-OgK" firstAttribute="top" secondItem="lBj-B6-cy1" secondAttribute="top" constant="8" id="RkP-PW-tlS"/>
+                            <constraint firstItem="732-d1-1LF" firstAttribute="trailing" secondItem="lBj-B6-cy1" secondAttribute="trailing" id="i6u-yz-odM"/>
+                            <constraint firstItem="lBj-B6-cy1" firstAttribute="trailing" secondItem="0QY-st-OgK" secondAttribute="trailing" constant="8" id="uSd-gr-baf"/>
+                            <constraint firstItem="lBj-B6-cy1" firstAttribute="bottom" secondItem="732-d1-1LF" secondAttribute="bottom" id="zXb-ii-xKT"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="bottomConstraint" destination="zXb-ii-xKT" id="QbN-MO-SsQ"/>
+                        <outlet property="playButton" destination="0QY-st-OgK" id="gQu-KX-x9j"/>
+                        <outlet property="tableView" destination="732-d1-1LF" id="Oa5-fN-Vvi"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sQU-hb-Ooy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="162" y="188"/>
+            <point key="canvasLocation" x="160.86956521739131" y="187.5"/>
         </scene>
     </scenes>
     <resources>
+        <image name="play.fill" catalog="system" width="116" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

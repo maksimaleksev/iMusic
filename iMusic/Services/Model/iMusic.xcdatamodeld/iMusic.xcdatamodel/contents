@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20C69" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="TrackDataModel" representedClassName=".TrackDataModel" syncable="YES" codeGenerationType="class">
+        <attribute name="artistName" attributeType="String"/>
+        <attribute name="collectionName" attributeType="String"/>
+        <attribute name="iconUrlString" optional="YES" attributeType="String"/>
+        <attribute name="previewUrl" optional="YES" attributeType="String"/>
+        <attribute name="trackName" attributeType="String"/>
+    </entity>
+    <elements>
+        <element name="TrackDataModel" positionX="-63" positionY="-18" width="128" height="104"/>
+    </elements>
+</model>

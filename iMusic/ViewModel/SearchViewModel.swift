@@ -80,3 +80,16 @@ class SearchViewModel {
                                                   previewUrl: track.previewUrl ?? "")
     }
 }
+
+
+extension SearchViewModel.CellViewModel: Equatable {
+    static func == (lhs: SearchViewModel.CellViewModel, rhs: SearchViewModel.CellViewModel) -> Bool {
+        return lhs.artistName == rhs.artistName
+            && lhs.artistName == rhs.artistName
+            && lhs.collectionName == rhs.collectionName
+            && lhs.iconUrlString == rhs.iconUrlString
+            && lhs.previewUrl == rhs.previewUrl
+    }
+    
+    
+}

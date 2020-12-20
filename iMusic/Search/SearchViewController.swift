@@ -23,16 +23,14 @@ class SearchViewController: UIViewController {
     
     private let footerView = FooterView()
     
+    //MARK: - Delegates
+    
     weak var mainTabBarDelegate: MainTabBarControllerDelegate?
     
     //MARK: - IBOtlets
     
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
-    @IBOutlet weak var trailingConstraint: NSLayoutConstraint!
-    @IBOutlet weak var leadingConstraint: NSLayoutConstraint!
-    @IBOutlet weak var topConstraint: NSLayoutConstraint!
-    
+        
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,6 +39,21 @@ class SearchViewController: UIViewController {
         setupTableView()
         populateTableView()
         cellSelectedSetup()
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        let keyWindow = UIApplication.shared.connectedScenes.filter({$0.activationState == .foregroundActive})
+            .map { $0 as? UIWindowScene }
+            .compactMap{$0}
+            .first?
+            .windows
+            .filter{$0.isKeyWindow}
+            .first
+        let tabBarVC = keyWindow?.rootViewController as? MainTabBarController
+        tabBarVC?.trackDetailView.trackMovingDelegate = self
     }
     
     //MARK: - Setup SearchBar
@@ -51,7 +64,7 @@ class SearchViewController: UIViewController {
         searchController.obscuresBackgroundDuringPresentation = false
         
         searchController.searchBar.rx.text
-            .debounce(.milliseconds(1000), scheduler: MainScheduler.instance)
+            .debounce(.milliseconds(500), scheduler: MainScheduler.instance)
             .distinctUntilChanged()
             .compactMap { $0 }
             .filter{ $0 != "" }
@@ -90,18 +103,11 @@ class SearchViewController: UIViewController {
         tableView.rx.itemSelected.subscribe(onNext: {[weak self] indexPath in
             
             guard let cellViewModel = self?.viewModel.cells.value[indexPath.row] else { return }
+            self?.searchController.searchBar.endEditing(true)
             self?.mainTabBarDelegate?.maximizeTrackDetailController(viewModel: cellViewModel)
             
+            
         }).disposed(by: disposeBag)
-    }
-    
-    func setupBottomConstraint(at constant: CGFloat) {
-        view.translatesAutoresizingMaskIntoConstraints = false
-        bottomConstraint.constant = constant
-        topConstraint.constant = 0
-        leadingConstraint.constant = 0
-        trailingConstraint.constant = 0
-        [bottomConstraint, topConstraint, leadingConstraint, trailingConstraint].forEach { $0?.isActive = true }
     }
 }
 

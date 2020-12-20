@@ -44,7 +44,6 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="bottomConstraint" destination="zXb-ii-xKT" id="QbN-MO-SsQ"/>
                         <outlet property="playButton" destination="0QY-st-OgK" id="gQu-KX-x9j"/>
                         <outlet property="tableView" destination="732-d1-1LF" id="Oa5-fN-Vvi"/>
                     </connections>

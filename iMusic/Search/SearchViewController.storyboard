@@ -32,11 +32,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="bottomConstraint" destination="FmI-Wk-4iD" id="H7M-rW-lWA"/>
-                        <outlet property="leadingConstraint" destination="Mlr-qo-IwU" id="s3o-nE-nu9"/>
                         <outlet property="tableView" destination="Jrh-7z-1XS" id="Vd3-a3-Ip8"/>
-                        <outlet property="topConstraint" destination="SWh-B1-KIE" id="gb0-hd-G18"/>
-                        <outlet property="trailingConstraint" destination="EJp-lo-kTl" id="jdB-6f-lWQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u3m-bP-ZcB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

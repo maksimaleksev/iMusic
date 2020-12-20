@@ -17,23 +17,24 @@ protocol MainTabBarControllerDelegate: class {
 
 class MainTabBarController: UITabBarController {
     
+    //MARK: - Vars and constants
     private let disposeBag = DisposeBag()
     private let searchVC: SearchViewController = SearchViewController.loadFromStoryboard()
     private let libraryVC: LibraryViewController = LibraryViewController.loadFromStoryboard()
-    private let trackDetailView: TrackDetailView = TrackDetailView.loadFromNib()
+    let trackDetailView: TrackDetailView = TrackDetailView.loadFromNib()
 
     
     private var minimizedTopAnchorConstraint: NSLayoutConstraint!
     private var maximizedTopAnchorConstraint: NSLayoutConstraint!
     private var bottomAnchorConstraint: NSLayoutConstraint!
 
-
+//MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tabBar.tintColor = #colorLiteral(red: 1, green: 0, blue: 0.3764705882, alpha: 1)
         searchVC.mainTabBarDelegate = self
-        
+        libraryVC.mainTabBarDelegate = self
         viewControllers = [
             generateNavigationController(rootViewController: searchVC, title: SearchViewController.vcName, image: #imageLiteral(resourceName: "ios10-apple-music-search-5nav-icon")),
             generateNavigationController(rootViewController: libraryVC, title: LibraryViewController.vcName, image: #imageLiteral(resourceName: "ios10-apple-music-library-5nav-icon"))
@@ -42,7 +43,7 @@ class MainTabBarController: UITabBarController {
         setupTrackDetailView()
     }
 
-    
+//MARK: - Setup
     private func generateNavigationController(rootViewController: UIViewController, title: String, image: UIImage) -> UINavigationController {
         let navigationVC = UINavigationController(rootViewController: rootViewController)
         navigationVC.tabBarItem.image = image
@@ -107,7 +108,6 @@ extension MainTabBarController: MainTabBarControllerDelegate {
         maximizedTopAnchorConstraint.isActive = false
         bottomAnchorConstraint.constant = view.frame.height
         minimizedTopAnchorConstraint.isActive = true
-//        searchVC.setupBottomConstraint(at: -64)
         
         UIView.animate(withDuration: 0.5,
                        delay: 0,
